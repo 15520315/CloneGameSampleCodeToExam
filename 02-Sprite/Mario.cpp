@@ -52,3 +52,11 @@ void CBlock::Render() {
 	ani->Render(x, y);
 
 }
+
+void CCloud::Render() {
+
+	LPANIMATION ani = CAnimations::GetInstance()->Get(530);
+
+	ani->Render(x, y);
+
+}

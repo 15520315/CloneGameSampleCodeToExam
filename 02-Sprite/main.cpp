@@ -32,7 +32,7 @@
 #define MAIN_WINDOW_TITLE L"02 - Sprite animation"
 #define WINDOW_ICON_PATH L"mario.ico"
 
-#define BACKGROUND_COLOR D3DXCOLOR(200.0f/255, 200.0f/255, 255.0f/255,0.0f)
+#define BACKGROUND_COLOR D3DXCOLOR(160.0f/255, 255.0f/255, 240.0f/255,0.0f)
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
@@ -57,6 +57,8 @@ CBlock *Block;
 #define BLOCK_Y 120.0f;
 #define BLOCK_WIDTH 16.0f;
 #define BLOCK_HEIGHT 16.0f;
+
+CCloud *Cloud;
 
 CBrick *brick;
 
@@ -110,6 +112,9 @@ void LoadResources()
 	LPTEXTURE texBlock = textures->Get(ID_TEX_MISC);
 	sprites->Add(200001, 408, 225, 424, 241, texBlock);
 
+	LPTEXTURE texCloud = textures->Get(ID_TEX_MISC);
+	sprites->Add(200002, 354, 243, 370, 259, texBlock);
+
 
 	CAnimations * animations = CAnimations::GetInstance();
 	LPANIMATION ani;
@@ -137,12 +142,17 @@ void LoadResources()
 	ani = new CAnimation(100);
 	ani->Add(200001);
 	animations->Add(520, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(200002);
+	animations->Add(530, ani);
 	
 	
 	mario = new CMario(MARIO_START_X, MARIO_START_Y, MARIO_START_VX);
 	brick = new CBrick(100.0f, 100.0f);
 
 	Block = new CBlock(7.0f, 150.0f);
+	Cloud = new CCloud(230.0f, 80.0f);
 }
 
 /*
@@ -176,10 +186,12 @@ void Render()
 
 		brick->Render();
 		mario->Render();
+		Cloud->Render();
+
 
 		float x = 9.0f;
 		float y = 150.0f;
-		for (int j = 0; j <= 3; j++) {
+		for (int j = 0; j <= 1; j++) {
 			for (int i = 0; i < 19; i++)
 			{
 				Block = new CBlock(x, y);
