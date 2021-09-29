@@ -40,17 +40,26 @@
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
 
+
 #define TEXTURES_DIR L"textures"
 #define TEXTURE_PATH_MARIO TEXTURES_DIR "\\mario.png"
 #define TEXTURE_PATH_MISC TEXTURES_DIR "\\misc.png"
 #define TEXTURE_PATH_ENEMIES TEXTURES_DIR "\\enemies.png"
+
 
 CMario *mario;
 #define MARIO_START_X 10.0f
 #define MARIO_START_Y 130.0f
 #define MARIO_START_VX 0.1f
 
+CBlock *Block;
+#define BLOCK_X 10.0f;
+#define BLOCK_Y 120.0f;
+#define BLOCK_WIDTH 16.0f;
+#define BLOCK_HEIGHT 16.0f;
+
 CBrick *brick;
+
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -97,7 +106,10 @@ void LoadResources()
 	sprites->Add(20002, 318, 117, 334, 133, texMisc);
 	sprites->Add(20003, 336, 117, 352, 133, texMisc);
 	sprites->Add(20004, 354, 117, 370, 133, texMisc);
-	
+
+	LPTEXTURE texBlock = textures->Get(ID_TEX_MISC);
+	sprites->Add(200001, 408, 225, 424, 241, texBlock);
+
 
 	CAnimations * animations = CAnimations::GetInstance();
 	LPANIMATION ani;
@@ -121,10 +133,16 @@ void LoadResources()
 	ani->Add(20003);
 	ani->Add(20004);
 	animations->Add(510, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(200001);
+	animations->Add(520, ani);
 	
 	
 	mario = new CMario(MARIO_START_X, MARIO_START_Y, MARIO_START_VX);
 	brick = new CBrick(100.0f, 100.0f);
+
+	Block = new CBlock(7.0f, 150.0f);
 }
 
 /*
@@ -158,6 +176,19 @@ void Render()
 
 		brick->Render();
 		mario->Render();
+
+		float x = 9.0f;
+		float y = 150.0f;
+		for (int j = 0; j <= 3; j++) {
+			for (int i = 0; i < 19; i++)
+			{
+				Block = new CBlock(x, y);
+				Block->Render();
+				x = x + 16.0f;
+			}
+			x = 9.0f;
+			y = y + 16.0f;
+		}
 
 		// Uncomment this line to see how to draw a porttion of a texture  
 		//g->Draw(10, 10, texMisc, 300, 117, 316, 133);

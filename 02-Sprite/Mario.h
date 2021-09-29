@@ -24,4 +24,9 @@ public:
 	void Render();
 };
 
-
+class CBlock : public CGameObject {
+public:
+	CBlock(float x, float y) : CGameObject(x, y) {}
+	void Render();
+	void Update(DWORD dt) {}
+};
